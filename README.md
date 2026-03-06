@@ -166,8 +166,8 @@ cfg.method.target_keywords = [
 
 **Distributed training:**
 ```bash
-bash scripts/run.sh        # single-node multi-GPU (DDP)
-bash scripts/run_fsdp.sh   # FSDP
+bash scripts/bash/run.sh        # single-node multi-GPU (DDP)
+bash scripts/bash/run_fsdp.sh   # FSDP
 ```
 
 ### Evaluation
@@ -205,7 +205,11 @@ python scripts/eval_real_time.py \
 │   ├── robot_devices/     # AgileX PiPER drivers
 │   └── utils/
 ├── configs/               # Training / eval configs
-├── scripts/               # train.py, eval_ours.py, eval_real_time.py
+├── scripts/
+│   ├── train.py           # Training entry point
+│   ├── eval_ours.py       # Offline evaluation
+│   ├── eval_real_time.py  # Real-time robot evaluation
+│   └── bash/              # Shell scripts (DDP/FSDP launch, CAN setup)
 ├── assets/                # Paper figures
 └── requirements.txt
 ```
