@@ -3,7 +3,7 @@
 # Helper script to run weight-matrix SVD analysis
 #
 # Usage:
-#   bash scripts/weight_matrix_analysis.sh \
+#   bash scripts/bash/weight_matrix_analysis.sh \
 #       /path/to/pretrained.safetensors \
 #       /path/to/finetuned.safetensors 
 #
