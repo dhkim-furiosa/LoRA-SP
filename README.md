@@ -1,7 +1,12 @@
 # LoRA-SP: Rank-Adaptive Fine-Tuning for Vision-Language-Action Models
 
 > **Multi-Task Vision-Language-Action Learning with LoRA Select–Prune**
-> ICRA 2026 (under review)
+> ICRA 2026
+
+**Authors:** Donghoon Kim, Minji Bae\*, Unghui Nam\*, Gyeonghun Kim\*, Suyun Lee\*, Kyuhong Shim†, Byonghyo Shim†
+
+Seoul National University (ISLab) · Sungkyunkwan University
+\* Equal contribution · † Corresponding authors
 
 LoRA-SP (**Select–Prune**) is a rank-adaptive parameter-efficient fine-tuning (PEFT) method for Vision-Language-Action (VLA) models. It replaces fixed-rank LoRA updates with input- and layer-wise adaptive capacity, achieving strong multi-task performance with compact adapters.
 
@@ -211,7 +216,7 @@ python scripts/eval_real_time.py \
 
 ```bibtex
 @inproceedings{kim2026lorasp,
-  author    = {Donghoon Kim},
+  author    = {Donghoon Kim and Minji Bae and Unghui Nam and Gyeonghun Kim and Suyun Lee and Kyuhong Shim and Byonghyo Shim},
   title     = {Multi-Task Vision-Language-Action Learning with {LoRA} Select--Prune},
   booktitle = {IEEE International Conference on Robotics and Automation (ICRA)},
   year      = {2026},
