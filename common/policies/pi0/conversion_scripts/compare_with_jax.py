@@ -97,7 +97,7 @@ def main():
 
     noise = torch.from_numpy(noise).to(device=device, dtype=torch.float32)
 
-    common import policies  # noqa
+    from common import policies  # noqa
 
     cfg = PreTrainedConfig.from_pretrained(ckpt_torch_dir)
     cfg.pretrained_path = ckpt_torch_dir

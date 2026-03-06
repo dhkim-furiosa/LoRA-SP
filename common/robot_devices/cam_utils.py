@@ -9,7 +9,6 @@ from common.constants import (
     EXO_CAM_SN,
     TABLE_CAM_SN,
 )
-from PIL import Image
 
 def get_sn(camera):
     if camera == 'wrist':
@@ -72,11 +71,6 @@ class RealSenseCamera:
     def image_for_inference(self):
         image = torch.from_numpy(self.image).flip(-1)
         return image.permute(2,0,1).unsqueeze(0).to(dtype = torch.float32) / 255.0
-
-    def image_for_inference_openvla(self):
-        image_rgb = cv2.cvtColor(self.image, cv2.COLOR_BGR2RGB)
-        image_pil = Image.fromarray(image_rgb)
-        return image_pil
 
     def image_for_record(self):
         return np.expand_dims(self.image, 0)

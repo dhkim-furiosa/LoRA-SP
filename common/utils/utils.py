@@ -26,8 +26,6 @@ from pathlib import Path
 import numpy as np
 import torch
 
-from PIL import Image
-
 from common.robot_devices.robot_utils import init_robot
 from common.robot_devices.cam_utils import RealSenseCamera
 from common.constants import TASK_LIST
@@ -257,11 +255,6 @@ def random_piper_action():
 
 def random_piper_image():
     return torch.rand(1, 3, 480, 640, dtype=torch.float32)
-
-def random_piper_image_openvla(width=224, height=224):
-    random_array = np.random.randint(0, 256, size=(height, width, 3), dtype=np.uint8)
-    random_image = Image.fromarray(random_array, mode="RGB")
-    return random_image
 
 def plot_trajectory(ax, action_list, projection='2d', mode='pred'):
     # action_list = np.array(action_list)
