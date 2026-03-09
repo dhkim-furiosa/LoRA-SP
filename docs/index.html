@@ -271,7 +271,7 @@
     <div class="container">
       <h2>Method</h2>
       <figure>
-        <img src="../assets/LoRA-SP-method.png" alt="LoRA-SP Method Overview" style="width:100%"/>
+        <img src="https://raw.githubusercontent.com/dhkim-furiosa/LoRA-SP/main/assets/LoRA-SP-method.png" alt="LoRA-SP Method Overview" style="width:100%"/>
         <figcaption>Fig. 1 — LoRA-SP replaces fixed-rank LoRA with an input-conditioned SVD-style factorization using a shared vector bank and lightweight router.</figcaption>
       </figure>
 
@@ -285,7 +285,7 @@
 
       <h3>Select: Energy-based Active Rank</h3>
       <figure>
-        <img src="../assets/LoRA-SP-method2.png" alt="Select mechanism" style="width:85%"/>
+        <img src="https://raw.githubusercontent.com/dhkim-furiosa/LoRA-SP/main/assets/LoRA-SP-method2.png" alt="Select mechanism" style="width:85%"/>
         <figcaption>Fig. 2 — The effective rank k is chosen as the smallest index where cumulative energy meets threshold η.</figcaption>
       </figure>
       <p>
@@ -298,7 +298,7 @@
 
       <h3>Prune: Spectral Concentration Loss</h3>
       <figure>
-        <img src="../assets/LoRA-SP-method3.png" alt="Prune mechanism" style="width:85%"/>
+        <img src="https://raw.githubusercontent.com/dhkim-furiosa/LoRA-SP/main/assets/LoRA-SP-method3.png" alt="Prune mechanism" style="width:85%"/>
         <figcaption>Fig. 3 — The spectral loss drives singular-value mass onto a small stable set of directions over training.</figcaption>
       </figure>
       <div class="eq">ℒ<sub>spec</sub>(x) = 1 − E<sub>k</sub>(x)</div>
@@ -308,7 +308,7 @@
 
       <h3>Layer-wise Rank Distribution</h3>
       <figure>
-        <img src="../assets/lora-sp_pi0_rank_distribution.png" alt="Rank distribution per layer" style="width:85%"/>
+        <img src="https://raw.githubusercontent.com/dhkim-furiosa/LoRA-SP/main/assets/lora-sp_pi0_rank_distribution.png" alt="Rank distribution per layer" style="width:85%"/>
         <figcaption>Fig. 4 — LoRA-SP automatically assigns high rank to the vision module and low rank to language and action modules.</figcaption>
       </figure>
     </div>
@@ -320,7 +320,7 @@
       <h2>Experiments</h2>
 
       <figure>
-        <img src="../assets/experiment_setup.png" alt="Experiment Setup" style="width:85%"/>
+        <img src="https://raw.githubusercontent.com/dhkim-furiosa/LoRA-SP/main/assets/experiment_setup.png" alt="Experiment Setup" style="width:85%"/>
         <figcaption>Fig. 5 — Real-world setup: four manipulation tasks on AgileX PiPER (7-DoF), 480 demonstrations total.</figcaption>
       </figure>
 
@@ -356,7 +356,7 @@
 
       <h3>Rank vs. Performance</h3>
       <figure>
-        <img src="../assets/rank_vs_performance.png" alt="Rank vs Performance" style="width:85%"/>
+        <img src="https://raw.githubusercontent.com/dhkim-furiosa/LoRA-SP/main/assets/rank_vs_performance.png" alt="Rank vs Performance" style="width:85%"/>
         <figcaption>Fig. 6 — VLA transfer requires far higher intrinsic rank than language fine-tuning, motivating rank-adaptive methods.</figcaption>
       </figure>
     </div>

@@ -7,6 +7,10 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Conference-ICRA_2026-blue" alt="ICRA 2026"/>
   &nbsp;
+  <a href="https://dhkim-furiosa.github.io/LoRA-SP/">
+    <img src="https://img.shields.io/badge/Project-Page-orange" alt="Project Page"/>
+  </a>
+  &nbsp;
   <a href="https://www.youtube.com/watch?v=Mmjj3aYeeRM">
     <img src="https://img.shields.io/badge/Video-YouTube-red?logo=youtube" alt="YouTube"/>
   </a>
