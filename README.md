@@ -1,14 +1,46 @@
 # LoRA-SP: Rank-Adaptive Fine-Tuning for Vision-Language-Action Models
 
-> **Multi-Task Vision-Language-Action Learning with LoRA Select–Prune**
-> ICRA 2026
+<p align="center">
+  <b>Multi-Task Vision-Language-Action Learning with LoRA Select–Prune</b>
+</p>
 
-**Authors:** Donghoon Kim, Minji Bae\*, Unghui Nam\*, Gyeonghun Kim\*, Suyun Lee\*, Kyuhong Shim†, Byonghyo Shim†
+<p align="center">
+  <img src="https://img.shields.io/badge/Conference-ICRA_2026-blue" alt="ICRA 2026"/>
+  &nbsp;
+  <a href="https://www.youtube.com/watch?v=Mmjj3aYeeRM">
+    <img src="https://img.shields.io/badge/Video-YouTube-red?logo=youtube" alt="YouTube"/>
+  </a>
+  &nbsp;
+  <img src="https://img.shields.io/badge/Robot-AgileX_PiPER-green" alt="AgileX PiPER"/>
+</p>
 
-Seoul National University (ISLab) · Sungkyunkwan University
-\* Equal contribution · † Corresponding authors
+<p align="center">
+  Donghoon Kim,
+  Minji Bae*,
+  Unghui Nam*,
+  Gyeonghun Kim*,
+  Suyun Lee*,
+  Kyuhong Shim†,
+  Byonghyo Shim†
+  <br>
+  Seoul National University (ISLab) &nbsp;·&nbsp; Sungkyunkwan University
+  <br>
+  <sub>* Equal contribution &nbsp;&nbsp; † Corresponding authors</sub>
+</p>
+
+---
 
 LoRA-SP (**Select–Prune**) is a rank-adaptive parameter-efficient fine-tuning (PEFT) method for Vision-Language-Action (VLA) models. It replaces fixed-rank LoRA updates with input- and layer-wise adaptive capacity, achieving strong multi-task performance with compact adapters.
+
+---
+
+## Demo
+
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=Mmjj3aYeeRM">
+    <img src="https://img.youtube.com/vi/Mmjj3aYeeRM/maxresdefault.jpg" width="80%" alt="LoRA-SP Demo Video"/>
+  </a>
+</p>
 
 ---
 
