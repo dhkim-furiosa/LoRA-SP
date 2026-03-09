@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LoRA-SP: Rank-Adaptive Fine-Tuning for VLA Models</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #1a1a1a;
+      background: #fff;
+      line-height: 1.7;
+    }
+
+    /* ── Layout ── */
+    .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      padding: 72px 24px 56px;
+      text-align: center;
+    }
+    .hero .venue {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px;
+      padding: 4px 16px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+    .hero .subtitle {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 32px;
+    }
+
+    /* ── Authors ── */
+    .authors { margin-bottom: 32px; font-size: 0.95rem; }
+    .authors .name-list {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 18px;
+      margin-bottom: 10px;
+    }
+    .authors .name-list span { white-space: nowrap; }
+    .authors .affil { color: rgba(255,255,255,0.65); font-size: 0.85rem; }
+    .authors .note  { color: rgba(255,255,255,0.5);  font-size: 0.78rem; margin-top: 4px; }
+
+    /* ── Buttons ── */
+    .buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-size: 0.9rem; font-weight: 600;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.85; }
+    .btn-light  { background: #fff; color: #0f2027; }
+    .btn-ghost  { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
+
+    /* ── Sections ── */
+    section { padding: 64px 0; border-bottom: 1px solid #f0f0f0; }
+    section:last-of-type { border-bottom: none; }
+    h2 {
+      font-size: 1.6rem; font-weight: 700;
+      margin-bottom: 24px;
+      position: relative; padding-bottom: 12px;
+    }
+    h2::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 40px; height: 3px;
+      background: linear-gradient(90deg, #203a43, #2c5364);
+      border-radius: 2px;
+    }
+    h3 { font-size: 1.15rem; font-weight: 600; margin: 28px 0 12px; color: #203a43; }
+    p  { margin-bottom: 14px; color: #333; }
+
+    /* ── Video ── */
+    .video-wrap {
+      position: relative; padding-bottom: 56.25%;
+      height: 0; overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    }
+    .video-wrap iframe {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+
+    /* ── Abstract box ── */
+    .abstract-box {
+      background: #f7f9fc;
+      border-left: 4px solid #2c5364;
+      border-radius: 0 8px 8px 0;
+      padding: 24px 28px;
+      font-size: 0.97rem;
+      color: #333;
+      line-height: 1.8;
+    }
+
+    /* ── Method equation ── */
+    .eq {
+      background: #f7f9fc;
+      border-radius: 8px;
+      padding: 16px 20px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.95rem;
+      margin: 16px 0;
+      text-align: center;
+      color: #1a1a1a;
+    }
+
+    /* ── Figures ── */
+    figure {
+      margin: 28px 0;
+      text-align: center;
+    }
+    figure img {
+      max-width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+    }
+    figcaption {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    /* ── Results table ── */
+    .table-wrap { overflow-x: auto; margin: 20px 0; }
+    table {
+      width: 100%; border-collapse: collapse;
+      font-size: 0.92rem;
+    }
+    th {
+      background: #0f2027; color: #fff;
+      padding: 12px 16px; text-align: left;
+      font-weight: 600;
+    }
+    td { padding: 11px 16px; border-bottom: 1px solid #eee; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #f7f9fc; }
+    .highlight td { background: #e8f4f8; font-weight: 600; }
+    .highlight td:first-child::before { content: '★ '; color: #2c5364; }
+
+    /* ── BibTeX ── */
+    .bibtex {
+      background: #1a1a1a; color: #d4d4d4;
+      border-radius: 10px;
+      padding: 24px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      white-space: pre;
+      position: relative;
+    }
+    .copy-btn {
+      position: absolute; top: 12px; right: 12px;
+      background: #333; color: #ccc;
+      border: none; border-radius: 6px;
+      padding: 5px 12px; font-size: 0.78rem;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .copy-btn:hover { background: #555; }
+
+    /* ── Footer ── */
+    footer {
+      background: #0f2027; color: rgba(255,255,255,0.55);
+      text-align: center;
+      padding: 28px 24px;
+      font-size: 0.83rem;
+    }
+    footer a { color: rgba(255,255,255,0.7); }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .hero { padding: 48px 16px 40px; }
+      h2 { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════  HERO  ═══════════════════════════ -->
+<header class="hero">
+  <p class="venue">ICRA 2026 &nbsp;·&nbsp; Atlanta, GA</p>
+  <h1>LoRA-SP: Rank-Adaptive Fine-Tuning<br>for Vision-Language-Action Models</h1>
+  <p class="subtitle">Multi-Task Vision-Language-Action Learning with LoRA Select–Prune</p>
+
+  <div class="authors">
+    <div class="name-list">
+      <span>Donghoon Kim</span>
+      <span>Minji Bae*</span>
+      <span>Unghui Nam*</span>
+      <span>Gyeonghun Kim*</span>
+      <span>Suyun Lee*</span>
+      <span>Kyuhong Shim†</span>
+      <span>Byonghyo Shim†</span>
+    </div>
+    <div class="affil">Seoul National University (ISLab) &nbsp;·&nbsp; Sungkyunkwan University</div>
+    <div class="note">* Equal contribution &nbsp;&nbsp; † Corresponding authors</div>
+  </div>
+
+  <div class="buttons">
+    <a class="btn btn-light" href="https://github.com/dhkim-furiosa/LoRA-SP" target="_blank">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.1.82-.26.82-.58v-2.04c-3.34.72-4.04-1.6-4.04-1.6-.54-1.38-1.33-1.75-1.33-1.75-1.08-.74.08-.72.08-.72 1.2.08 1.83 1.23 1.83 1.23 1.06 1.82 2.8 1.3 3.48.99.1-.77.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.65.25 2.87.12 3.17.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.69.83.57C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      Code
+    </a>
+    <a class="btn btn-ghost" href="https://www.youtube.com/watch?v=Mmjj3aYeeRM" target="_blank">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.38.55A3.02 3.02 0 0 0 .5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 0 0 2.12 2.14C4.5 20.5 12 20.5 12 20.5s7.5 0 9.38-.55a3.02 3.02 0 0 0 2.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/></svg>
+      Video
+    </a>
+  </div>
+</header>
+
+<!-- ═══════════════════════════  MAIN  ═══════════════════════════ -->
+<main>
+
+  <!-- Demo Video -->
+  <section>
+    <div class="container">
+      <h2>Demo</h2>
+      <div class="video-wrap">
+        <iframe
+          src="https://www.youtube.com/embed/Mmjj3aYeeRM"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- Abstract -->
+  <section>
+    <div class="container">
+      <h2>Abstract</h2>
+      <div class="abstract-box">
+        Vision-language-action (VLA) models are increasingly used for Physical AI, but deploying a pre-trained VLA to unseen environments, embodiments, or tasks still requires adaptation.
+        Parameter-efficient fine-tuning (PEFT), especially LoRA, is common for VLA policies, yet the exposed capacity knob — the rank — does not transfer uniformly: robotics transfer exhibits a higher and task-varying intrinsic rank than language fine-tuning.
+        Small ranks suffice for LLMs (<em>r</em>&nbsp;∈&nbsp;{4,8}), while spectral analyses indicate VLAs may require much larger ranks (<em>r</em>&nbsp;≈&nbsp;128) or near-full rank, a mismatch that worsens in multi-task settings.
+        <br><br>
+        We present <strong>LoRA-SP</strong> (<em>Select–Prune</em>), a rank-adaptive fine-tuning method that replaces fixed-rank updates with input- and layer-wise capacity.
+        LoRA-SP uses an SVD-style parameterization with a small router whose nonnegative scores act as singular values over a shared vector bank.
+        The active set is chosen by an energy target on the cumulative squared scores E(k)&nbsp;≥&nbsp;η, providing a direct link to approximation error.
+        During training, η concentrates energy on a few directions while preserving accuracy, yielding compact adapters that reduce cross-task interference and improve generalization.
+        <br><br>
+        On four real-robot manipulation tasks with an unseen AgileX PiPER arm, across π₀ and SmolVLA backbones, LoRA-SP matches or exceeds full fine-tuning and improves multi-task success by up to <strong>+31.6%</strong> over standard LoRA while remaining robust to rank choice.
+      </div>
+    </div>
+  </section>
+
+  <!-- Method -->
+  <section>
+    <div class="container">
+      <h2>Method</h2>
+      <figure>
+        <img src="../assets/LoRA-SP-method.png" alt="LoRA-SP Method Overview" style="width:100%"/>
+        <figcaption>Fig. 1 — LoRA-SP replaces fixed-rank LoRA with an input-conditioned SVD-style factorization using a shared vector bank and lightweight router.</figcaption>
+      </figure>
+
+      <p>
+        LoRA-SP generalizes standard LoRA by replacing the fixed-rank update ΔW = BA with:
+      </p>
+      <div class="eq">ΔW<sub>ℓ</sub>(x) = U<sub>ℓ</sub> · diag(s<sub>ℓ</sub>(x)) · V<sub>ℓ</sub></div>
+      <p>
+        where U<sub>ℓ</sub>, V<sub>ℓ</sub> define a <strong>shared vector bank</strong> (initialized wide at r = 128), and s<sub>ℓ</sub>(x) ≥ 0 are <strong>singular-value-like scores</strong> produced by a lightweight router per input.
+      </p>
+
+      <h3>Select: Energy-based Active Rank</h3>
+      <figure>
+        <img src="../assets/LoRA-SP-method2.png" alt="Select mechanism" style="width:85%"/>
+        <figcaption>Fig. 2 — The effective rank k is chosen as the smallest index where cumulative energy meets threshold η.</figcaption>
+      </figure>
+      <p>
+        Router scores are sorted and the effective rank k is the smallest index satisfying:
+      </p>
+      <div class="eq">E<sub>k</sub>(x) = Σ<sub>i=1..k</sub> s<sub>i</sub>(x)² / Σ<sub>j=1..r</sub> s<sub>j</sub>(x)²  ≥  η</div>
+      <p>
+        Since E<sub>k</sub>(x) bounds the relative Frobenius error as √(1 − E<sub>k</sub>(x)), the threshold η is a direct accuracy–efficiency knob. Vectors beyond rank k are zeroed for that input.
+      </p>
+
+      <h3>Prune: Spectral Concentration Loss</h3>
+      <figure>
+        <img src="../assets/LoRA-SP-method3.png" alt="Prune mechanism" style="width:85%"/>
+        <figcaption>Fig. 3 — The spectral loss drives singular-value mass onto a small stable set of directions over training.</figcaption>
+      </figure>
+      <div class="eq">ℒ<sub>spec</sub>(x) = 1 − E<sub>k</sub>(x)</div>
+      <p>
+        This creates a positive feedback loop: selected vectors are reinforced, their singular values grow, and they dominate future selections. The task loss prevents accuracy collapse, yielding compact adapters without sacrificing performance.
+      </p>
+
+      <h3>Layer-wise Rank Distribution</h3>
+      <figure>
+        <img src="../assets/lora-sp_pi0_rank_distribution.png" alt="Rank distribution per layer" style="width:85%"/>
+        <figcaption>Fig. 4 — LoRA-SP automatically assigns high rank to the vision module and low rank to language and action modules.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Experiments -->
+  <section>
+    <div class="container">
+      <h2>Experiments</h2>
+
+      <figure>
+        <img src="../assets/experiment_setup.png" alt="Experiment Setup" style="width:85%"/>
+        <figcaption>Fig. 5 — Real-world setup: four manipulation tasks on AgileX PiPER (7-DoF), 480 demonstrations total.</figcaption>
+      </figure>
+
+      <h3>Setup</h3>
+      <ul style="margin: 0 0 16px 20px; color:#333; line-height:2;">
+        <li><strong>Robot:</strong> AgileX PiPER (7-DoF), unseen during VLA pretraining</li>
+        <li><strong>Tasks:</strong> Open the Pot · Pour the Block · Press the Button · Pick and Place</li>
+        <li><strong>Data:</strong> 120 demos per task (480 total), dual RGB views</li>
+        <li><strong>Backbones:</strong> π₀ (PaLIGemma-3.5B) and SmolVLA (SmolVLM-2-based)</li>
+        <li><strong>Baselines:</strong> Full FT, LoRA (r ∈ {16,32,64,128}), AdaLoRA, LoRA-MoE</li>
+      </ul>
+
+      <h3>Main Results</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>π₀ Multi-Task Avg</th>
+              <th>SmolVLA Multi-Task Avg</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Full Fine-Tuning</td><td>Best</td><td>Best</td></tr>
+            <tr><td>LoRA (r=128)</td><td>Baseline</td><td>Baseline</td></tr>
+            <tr><td>AdaLoRA</td><td>≈ LoRA</td><td>≈ LoRA</td></tr>
+            <tr><td>LoRA-MoE (weighted)</td><td>≈ LoRA</td><td>≈ LoRA</td></tr>
+            <tr class="highlight"><td>LoRA-SP (ours)</td><td>+23.3% over LoRA</td><td>+31.6% over LoRA</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>LoRA-SP matches or exceeds full fine-tuning across tasks while updating significantly fewer parameters and remaining <strong>robust to rank choice</strong>.</p>
+
+      <h3>Rank vs. Performance</h3>
+      <figure>
+        <img src="../assets/rank_vs_performance.png" alt="Rank vs Performance" style="width:85%"/>
+        <figcaption>Fig. 6 — VLA transfer requires far higher intrinsic rank than language fine-tuning, motivating rank-adaptive methods.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Citation -->
+  <section>
+    <div class="container">
+      <h2>Citation</h2>
+      <div style="position:relative;">
+        <pre class="bibtex">@inproceedings{kim2026lorasp,
+  author    = {Donghoon Kim and Minji Bae and Unghui Nam and
+               Gyeonghun Kim and Suyun Lee and Kyuhong Shim and Byonghyo Shim},
+  title     = {Multi-Task Vision-Language-Action Learning with {LoRA} Select--Prune},
+  booktitle = {IEEE International Conference on Robotics and Automation (ICRA)},
+  year      = {2026},
+  url       = {https://github.com/dhkim-furiosa/LoRA-SP},
+}</pre>
+        <button class="copy-btn" onclick="
+          navigator.clipboard.writeText(this.previousElementSibling.textContent);
+          this.textContent='Copied!';
+          setTimeout(()=>this.textContent='Copy',2000);
+        ">Copy</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ═══════════════════════════  FOOTER  ═══════════════════════════ -->
+<footer>
+  <p>LoRA-SP · ICRA 2026 · Seoul National University ISLab &amp; Sungkyunkwan University</p>
+  <p style="margin-top:6px;">
+    <a href="https://github.com/dhkim-furiosa/LoRA-SP" target="_blank">GitHub</a>
+    &nbsp;·&nbsp;
+    <a href="https://www.youtube.com/watch?v=Mmjj3aYeeRM" target="_blank">YouTube</a>
+  </p>
+</footer>
+
+</body>
+</html>
