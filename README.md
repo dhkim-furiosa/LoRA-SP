@@ -7,6 +7,10 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Conference-ICRA_2026-blue" alt="ICRA 2026"/>
   &nbsp;
+  <a href="https://arxiv.org/abs/2603.07404">
+    <img src="https://img.shields.io/badge/arXiv-2603.07404-b31b1b?logo=arxiv" alt="arXiv"/>
+  </a>
+  &nbsp;
   <a href="https://dhkim-furiosa.github.io/LoRA-SP/">
     <img src="https://img.shields.io/badge/Project-Page-orange" alt="Project Page"/>
   </a>
@@ -260,7 +264,7 @@ python scripts/eval_real_time.py \
   title     = {Multi-Task Vision-Language-Action Learning with {LoRA} Select--Prune},
   booktitle = {IEEE International Conference on Robotics and Automation (ICRA)},
   year      = {2026},
-  url       = {https://github.com/dhkim-furiosa/LoRA-SP},
+  url       = {https://arxiv.org/abs/2603.07404},
 }
 ```
 
