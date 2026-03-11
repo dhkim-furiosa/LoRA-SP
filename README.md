@@ -6,19 +6,9 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Conference-ICRA_2026-blue" alt="ICRA 2026"/>
-  &nbsp;
-  <a href="https://arxiv.org/abs/2603.07404">
-    <img src="https://img.shields.io/badge/arXiv-2603.07404-b31b1b?logo=arxiv" alt="arXiv"/>
-  </a>
-  &nbsp;
-  <a href="https://dhkim-furiosa.github.io/LoRA-SP/">
-    <img src="https://img.shields.io/badge/Project-Page-orange" alt="Project Page"/>
-  </a>
-  &nbsp;
-  <a href="https://www.youtube.com/watch?v=Mmjj3aYeeRM">
-    <img src="https://img.shields.io/badge/Video-YouTube-red?logo=youtube" alt="YouTube"/>
-  </a>
-  &nbsp;
+  <a href="https://arxiv.org/abs/2603.07404"><img src="https://img.shields.io/badge/arXiv-2603.07404-b31b1b?logo=arxiv" alt="arXiv"/></a>
+  <a href="https://dhkim-furiosa.github.io/LoRA-SP/"><img src="https://img.shields.io/badge/Project-Page-orange" alt="Project Page"/></a>
+  <a href="https://www.youtube.com/watch?v=Mmjj3aYeeRM"><img src="https://img.shields.io/badge/Video-YouTube-red?logo=youtube" alt="YouTube"/></a>
   <img src="https://img.shields.io/badge/Robot-AgileX_PiPER-green" alt="AgileX PiPER"/>
 </p>
 
