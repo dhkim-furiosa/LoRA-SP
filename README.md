@@ -1,7 +1,7 @@
 # LoRA-SP: Rank-Adaptive Fine-Tuning for Vision-Language-Action Models
 
 <p align="center">
-  <b>Multi-Task Vision-Language-Action Learning with LoRA Select–Prune</b>
+  <b>Adaptive Capacity Allocation for Vision Language Action Fine-tuning</b>
 </p>
 
 <p align="center">
@@ -63,7 +63,7 @@ Standard LoRA exposes a single rank hyperparameter that does not generalize unif
 In multi-task settings, a single fixed rank must serve heterogeneous tasks, causing cross-task interference and degraded generalization.
 
 ---
-ㅇ
+
 ## Method
 
 <p align="center">
