@@ -63,7 +63,7 @@ Standard LoRA exposes a single rank hyperparameter that does not generalize unif
 In multi-task settings, a single fixed rank must serve heterogeneous tasks, causing cross-task interference and degraded generalization.
 
 ---
-
+ㅇ
 ## Method
 
 <p align="center">
@@ -261,7 +261,7 @@ python scripts/eval_real_time.py \
 ```bibtex
 @inproceedings{kim2026lorasp,
   author    = {Donghoon Kim and Minji Bae and Unghui Nam and Gyeonghun Kim and Suyun Lee and Kyuhong Shim and Byonghyo Shim},
-  title     = {Multi-Task Vision-Language-Action Learning with {LoRA} Select--Prune},
+  title     = {Adaptive Capacity Allocation for Vision Language Action Fine-tuning},
   booktitle = {IEEE International Conference on Robotics and Automation (ICRA)},
   year      = {2026},
   url       = {https://arxiv.org/abs/2603.07404},
